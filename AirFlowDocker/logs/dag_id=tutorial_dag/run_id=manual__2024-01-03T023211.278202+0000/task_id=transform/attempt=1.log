@@ -1,0 +1,16 @@
+[2024-01-03T02:32:14.619+0000] {logging_mixin.py:188} INFO - Changing /opt/***/logs/dag_id=tutorial_dag/run_id=manual__2024-01-03T02:32:11.278202+00:00/task_id=transform permission to 509
+[2024-01-03T02:32:14.638+0000] {logging_mixin.py:188} INFO - Changing /opt/***/logs/dag_id=tutorial_dag/run_id=manual__2024-01-03T02:32:11.278202+00:00/task_id=transform permission to 509
+[2024-01-03T02:32:14.660+0000] {taskinstance.py:1957} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: tutorial_dag.transform manual__2024-01-03T02:32:11.278202+00:00 [queued]>
+[2024-01-03T02:32:14.666+0000] {taskinstance.py:1957} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: tutorial_dag.transform manual__2024-01-03T02:32:11.278202+00:00 [queued]>
+[2024-01-03T02:32:14.667+0000] {taskinstance.py:2171} INFO - Starting attempt 1 of 3
+[2024-01-03T02:32:14.676+0000] {taskinstance.py:2192} INFO - Executing <Task(PythonOperator): transform> on 2024-01-03 02:32:11.278202+00:00
+[2024-01-03T02:32:14.680+0000] {standard_task_runner.py:60} INFO - Started process 260 to run task
+[2024-01-03T02:32:14.682+0000] {standard_task_runner.py:87} INFO - Running: ['***', 'tasks', 'run', 'tutorial_dag', 'transform', 'manual__2024-01-03T02:32:11.278202+00:00', '--job-id', '6', '--raw', '--subdir', '/home/***/.local/lib/python3.8/site-packages/***/example_dags/tutorial_dag.py', '--cfg-path', '/tmp/tmph_vp0n1t']
+[2024-01-03T02:32:14.685+0000] {standard_task_runner.py:88} INFO - Job 6: Subtask transform
+[2024-01-03T02:32:14.715+0000] {logging_mixin.py:188} INFO - Changing /opt/***/logs/dag_id=tutorial_dag/run_id=manual__2024-01-03T02:32:11.278202+00:00/task_id=transform permission to 509
+[2024-01-03T02:32:14.720+0000] {task_command.py:423} INFO - Running <TaskInstance: tutorial_dag.transform manual__2024-01-03T02:32:11.278202+00:00 [running]> on host 857930eee489
+[2024-01-03T02:32:14.766+0000] {taskinstance.py:2481} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='tutorial_dag' AIRFLOW_CTX_TASK_ID='transform' AIRFLOW_CTX_EXECUTION_DATE='2024-01-03T02:32:11.278202+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-01-03T02:32:11.278202+00:00'
+[2024-01-03T02:32:14.782+0000] {python.py:201} INFO - Done. Returned value was: None
+[2024-01-03T02:32:14.789+0000] {taskinstance.py:1138} INFO - Marking task as SUCCESS. dag_id=tutorial_dag, task_id=transform, execution_date=20240103T023211, start_date=20240103T023214, end_date=20240103T023214
+[2024-01-03T02:32:14.814+0000] {local_task_job_runner.py:234} INFO - Task exited with return code 0
+[2024-01-03T02:32:14.830+0000] {taskinstance.py:3281} INFO - 1 downstream tasks scheduled from follow-on schedule check
