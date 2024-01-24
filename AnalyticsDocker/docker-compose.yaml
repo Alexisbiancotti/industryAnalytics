@@ -40,6 +40,7 @@ services:
 
   postgres:
     image: postgres:13
+    container_name: postgres
     environment:
       POSTGRES_USER: ${GENERAL_USER}
       POSTGRES_PASSWORD: ${GENERAL_PASS}
@@ -315,6 +316,21 @@ services:
       KAFKA_REST_BOOTSTRAP_SERVERS: 'broker:29092'
       KAFKA_REST_LISTENERS: "http://0.0.0.0:8082"
       KAFKA_REST_SCHEMA_REGISTRY_URL: 'http://schema-registry:8081'
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8070:8070
+    depends_on:
+      - broker
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'false'
+      KAFKA_CLUSTERS_0_NAME: 'broker'
+      SERVER_PORT: 8070
+      #LOGGING_LEVEL_ROOT: 'trace'
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "http://broker:29092"
+      KAFKA_CLUSTERS_0_KSQLDBSERVER: "http://ksqldb-server:8088"
 
 
 volumes:
