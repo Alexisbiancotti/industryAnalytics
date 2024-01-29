@@ -22,7 +22,7 @@ def readKafka():
     env.add_classpaths("file://{}".format(kafkaJar), "file://{}".format(jsonJar))
 
     # creating the json schema of the topic in order to be read
-    row_type_info = Types.ROW_NAMED(['createdAt', 'mach', 'temp'], [Types.BIG_INT(), Types.STRING(), Types.FLOAT()])
+    row_type_info = Types.ROW_NAMED(['createdAt', 'mach', 'temp'], [Types.BIG_DEC(), Types.STRING(), Types.FLOAT()])
 
     deserialization_schema = JsonRowDeserializationSchema.builder().type_info(row_type_info).build()
 
@@ -35,7 +35,10 @@ def readKafka():
     ds = env.add_source(kafka_consumer)
 
     # printing the results
+    ds.print()
 
+    # submit job
+    env.execute()
 
 
 
