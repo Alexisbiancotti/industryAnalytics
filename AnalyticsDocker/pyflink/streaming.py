@@ -20,13 +20,16 @@ def readKafka():
     jdbcJar = os.path.join(os.path.abspath(os.path.dirname(__file__)),
                                 'flink-connector-jdbc-1.16.3.jar')
     
-    # adding the files to the enviroment
-    env.add_jars("file://{}".format(kafkaJar), "file://{}".format(jsonJar), "file://{}".format(jdbcJar))
+    sqlJar = os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                                'postgresql-42.7.1.jar')
 
-    env.add_classpaths("file://{}".format(kafkaJar), "file://{}".format(jsonJar), "file://{}".format(jdbcJar))
+    # adding the files to the enviroment
+    env.add_jars("file://{}".format(kafkaJar), "file://{}".format(jsonJar), "file://{}".format(jdbcJar), "file://{}".format(sqlJar))
+
+    env.add_classpaths("file://{}".format(kafkaJar), "file://{}".format(jsonJar), "file://{}".format(jdbcJar), "file://{}".format(sqlJar))
 
     # creating the json schema of the topic in order to be read
-    row_type_info = Types.ROW_NAMED(['createdAt', 'mach', 'temp'], [Types.BIG_DEC(), Types.STRING(), Types.FLOAT()])
+    row_type_info = Types.ROW_NAMED(['createdAt', 'mach', 'temp'], [Types.INT(), Types.STRING(), Types.FLOAT()])
 
     deserialization_schema = JsonRowDeserializationSchema.builder().type_info(row_type_info).build()
 

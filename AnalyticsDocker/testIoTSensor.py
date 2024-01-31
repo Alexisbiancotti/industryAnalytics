@@ -21,7 +21,7 @@ def simulate_sensor_data():
 def send_data_to_kafka(temperature, machine):
 
     # Create a message in a format suitable for sending (e.g., a string or JSON)
-    message = {'createdAt': time.time(),
+    message = {'createdAt': round(time.time()),
                 'mach': machine,
                 'temp': temperature}
 
