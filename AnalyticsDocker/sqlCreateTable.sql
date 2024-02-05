@@ -14,11 +14,11 @@ create table salesOrder (
 	idItem 				int 			NOT NULL,
 	createdDate 		date 			NOT NULL,
 	dueDate 			date 			CHECK(dueDate > createdDate ),
-	closeDate 			date 			CHECK(closeDate > createdDate ),
+	shipDate 			date 			CHECK(closeDate > createdDate ),
 	qty					int 			CHECK(qty > 0),
 	qtyFullfilled 		int				CHECK(qtyFullfilled <= qty),
 	qtyShipped			int				CHECK(qtyShipped <= qtyFullfilled),
-	soStatus			varchar(12)		CHECK(soStatus in ('approved','partially fulfilled','fulfilled','shipped')),
+	soStatus			varchar(12)		CHECK(soStatus in ('Approved', 'Partially Fulfilled', 'Fulfilled', 'Partially Shipped', 'Shipped')),
 	FOREIGN KEY (idItem)
 		REFERENCES item (idItem),
 	FOREIGN KEY (idCustomer)
@@ -39,14 +39,14 @@ create table workOrder (
 
 create table item (
 	idItem 				serial 		PRIMARY KEY,
-	name 				int 		CHECK(itemName in ('item a','item b','item c','item d')),
-	family 				int 		CHECK(itemName in ('family a','family b')),
+	name 				int 		CHECK(name in ('Item a','Item b','Item c','Item d')),
+	family 				int 		CHECK(family in ('Family a','Family b')),
 	cicleTime	 		float(2) 	CHECK(cicleTime > 0)
 );
 
 create table customer (
 	idCustomer 			serial 		PRIMARY KEY,
-	name 				int 		CHECK(itemName in ('customer a','customer b','customer c','customer d')),
-	region 				int 		CHECK(itemName in ('region a','region b'))
+	name 				int 		CHECK(name in ('Customer a','Customer b','Customer c','Customer d')),
+	country 				int 		CHECK(country in ('Argentina','Brazil','Uruguay'))
 );
 
