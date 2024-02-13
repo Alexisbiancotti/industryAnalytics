@@ -1,0 +1,19 @@
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /dummyAPI
+
+# Copy the current directory contents into the container at /app, in order top run the cmd command
+COPY . /dummyAPI
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir fastapi uvicorn
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Run uvicorn when the container launches
+CMD ["uvicorn", "testAPI:app", "--host", "0.0.0.0", "--port", "80"]
+
+# to call the api inside the network curl http://datasource-dummy:80/items

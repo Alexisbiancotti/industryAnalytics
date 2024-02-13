@@ -14,7 +14,7 @@ create table salesOrder (
 	idItem 				int 			NOT NULL,
 	createdDate 		date 			NOT NULL,
 	dueDate 			date 			CHECK(dueDate > createdDate ),
-	shipDate 			date 			CHECK(closeDate > createdDate ),
+	shipDate 			date 			CHECK(shipDate > createdDate ),
 	qty					int 			CHECK(qty > 0),
 	qtyFullfilled 		int				CHECK(qtyFullfilled <= qty),
 	qtyShipped			int				CHECK(qtyShipped <= qtyFullfilled),
@@ -31,6 +31,7 @@ create table workOrder (
 	idItem 				int 			NOT NULL,
 	createdDate 		date 			NOT NULL,
 	qtyCreated			int 			CHECK(qtyCreated > 0),
+	scrapQty			int 			CHECK(qtyCreated > 0),	
 	FOREIGN KEY (idSO)
 		REFERENCES salesOrder (idSO),
 	FOREIGN KEY (idItem)

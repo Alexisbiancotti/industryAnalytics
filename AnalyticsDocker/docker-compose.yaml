@@ -329,7 +329,6 @@ services:
       DYNAMIC_CONFIG_ENABLED: 'false'
       KAFKA_CLUSTERS_0_NAME: 'broker'
       SERVER_PORT: 8070
-      #LOGGING_LEVEL_ROOT: 'trace'
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: "http://broker:29092"
       KAFKA_CLUSTERS_0_KSQLDBSERVER: "http://ksqldb-server:8088"
 
@@ -360,6 +359,12 @@ services:
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
+
+  datasource-dummy:
+    build:
+      context: ./dummyAPI
+    # ports:
+    #   - "80:80"
 
 
 volumes:
