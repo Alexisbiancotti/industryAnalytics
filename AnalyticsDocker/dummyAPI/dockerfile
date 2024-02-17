@@ -14,6 +14,6 @@ RUN pip install --no-cache-dir fastapi uvicorn
 EXPOSE 80
 
 # Run uvicorn when the container launches
-CMD ["uvicorn", "testAPI:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "dummyAPI:app", "--host", "0.0.0.0", "--port", "80"]
 
 # to call the api inside the network curl http://datasource-dummy:80/items

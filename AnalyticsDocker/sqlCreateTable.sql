@@ -6,7 +6,7 @@ temp        float(2)		NOT NULL
 );
 
 create table item (
-	idItem 				serial 				PRIMARY KEY,
+	idItem 				int 				PRIMARY KEY,
 	name 				varchar(12) 		CHECK(name in ('Sifon Simple','Sifon PVC','Sifon Doble')),
 	price	 			float(2) 			CHECK(price > 0),
 	family 				varchar(12) 		CHECK(family in ('Family A','Family B')),
@@ -14,8 +14,8 @@ create table item (
 );
 
 create table customer (
-	idCustomer 			serial 				PRIMARY KEY,
-	name 				varchar(12) 		CHECK(name in ('Customer a','Customer b','Customer c','Customer d')),
+	idCustomer 			int 				PRIMARY KEY,
+	name 				varchar(12) 		NOT NULL,
 	country 			varchar(12) 		CHECK(country in ('Argentina','Brazil','Uruguay'))
 );
 
@@ -30,7 +30,7 @@ create table salesOrder (
 	qty					int 			CHECK(qty > 0),
 	qtyFullfilled 		int				CHECK(qtyFullfilled <= qty),
 	qtyShipped			int				CHECK(qtyShipped <= qtyFullfilled),
-	soStatus			varchar(12)		CHECK(soStatus in ('Approved', 'Partially Fulfilled', 'Fulfilled', 'Partially Shipped', 'Shipped')),
+	soStatus			varchar(50)		CHECK(soStatus in ('Approved', 'Partially Fulfilled', 'Fulfilled', 'Partially Shipped', 'Shipped')),
 	UNIQUE (idSO, idItem),
 	FOREIGN KEY (idItem)
 		REFERENCES item (idItem),

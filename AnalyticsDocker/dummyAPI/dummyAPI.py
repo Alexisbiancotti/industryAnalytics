@@ -85,7 +85,7 @@ class SO:
         randomItem = itemsInstance.getRandomItem()      
 
         soDate = self.fromDate + timedelta(days = random.randint(0, 5))
-        soDueDate = soDate + timedelta(days = random.randint(0, 15))
+        soDueDate = soDate + timedelta(days = random.randint(1, 15))
 
         qty = random.randint(1, 5)
         # I specify values and their weight in order to give more probability to finished status
