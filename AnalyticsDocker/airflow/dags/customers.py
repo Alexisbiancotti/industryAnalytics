@@ -18,6 +18,7 @@ def customers():
 
        cursor.execute("DELETE FROM customer")
 
+       connection.commit()
        cursor.close()
        connection.close()
        return 
@@ -33,15 +34,15 @@ def customers():
 
         response = requests.get(f'http://datasource-dummy:80/customers')
         data = response.json()
-        tupleToInsert = [(data[record]['name'], data[record]['country']) for record in data]
+        tupleToInsert = [(record, data[record]['name'], data[record]['country']) for record in data]
 
         pg_hook = PostgresHook(postgres_conn_id='postgreProd')
         connection = pg_hook.get_conn()
         cursor = connection.cursor()
         
         insertSQL = """
-                INSERT INTO customer (name, country)
-                VALUES (%s, %s);
+                INSERT INTO customer (idCustomer, name, country)
+                VALUES (%s, %s, %s);
                 """
         
         execute_batch(cursor, insertSQL, tupleToInsert)

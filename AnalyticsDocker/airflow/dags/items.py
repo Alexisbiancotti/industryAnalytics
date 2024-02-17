@@ -18,10 +18,10 @@ def items():
        cursor = connection.cursor()
 
        cursor.execute("DELETE FROM item")
-
+       
+       connection.commit()
        cursor.close()
        connection.close()
-       return 
 
 
     @task()
@@ -33,15 +33,15 @@ def items():
 
         response = requests.get(f'http://datasource-dummy:80/items')
         data = response.json()
-        tupleToInsert = [(data[record]['name'], data[record]['price'], data[record]['family'], data[record]['cicleTime']) for record in data]
+        tupleToInsert = [(record, data[record]['name'], data[record]['price'], data[record]['family'], data[record]['cicleTime']) for record in data]
 
         pg_hook = PostgresHook(postgres_conn_id='postgreProd')
         connection = pg_hook.get_conn()
         cursor = connection.cursor()
         
         insertSQL = """
-                INSERT INTO item (name, price, family, cicleTime)
-                VALUES (%s, %s, %s, %s);
+                INSERT INTO item (idItem, name, price, family, cicleTime)
+                VALUES (%s, %s, %s, %s, %s);
                 """
         
         execute_batch(cursor, insertSQL, tupleToInsert)
