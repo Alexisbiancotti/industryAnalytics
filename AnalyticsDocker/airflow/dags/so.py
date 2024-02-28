@@ -6,7 +6,6 @@ import datetime
 import json
 
 @dag(
-    schedule=None,
     catchup=False,
     start_date=datetime.datetime(2024, 2, 24),
     schedule_interval= "* * * * *",

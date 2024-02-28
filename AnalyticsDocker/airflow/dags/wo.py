@@ -7,11 +7,10 @@ import datetime
 import json
 
 @dag(
-    schedule=None,
     catchup=False,
     tags=["testSQL"],
     start_date=datetime.datetime(2024, 2, 24),
-    schedule_interval= "* * * * *",
+    schedule_interval= "*/2 * * * *",
 )
 def wo():
 
@@ -19,6 +18,7 @@ def wo():
         task_id= 'soSuccess',
         external_dag_id='so',
         external_task_id=None, # Set to None to wait for the entire DAG
+        timeout=60,
         # execution_delta=timedelta(hours=1), # Time difference with the first DAG's execution
     )
 

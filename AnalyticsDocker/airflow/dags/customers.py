@@ -11,21 +11,40 @@ def customers():
 
 
     @task()
-    def dropTableValues():
+    def createTempTable():
+       
+       import time
+       import logging
+
+       #defining the table name
+       tableName =  "customer_" + str(round(time.time()))
+
+       # testing logging in from airflow
+       logging.info(f"The temp table name is: {tableName}")
+
        pg_hook = PostgresHook(postgres_conn_id='postgreProd')
        connection = pg_hook.get_conn()
        cursor = connection.cursor()
 
-       cursor.execute("DELETE FROM customer")
+       createSQL = f"""
+                    create table {tableName} (
+                        idCustomer 			int 				PRIMARY KEY,
+                        name 				varchar(12) 		NOT NULL,
+                        country 			varchar(12) 		CHECK(country in ('Argentina','Brazil','Uruguay'))
+                    );
+            """
+
+       cursor.execute(createSQL)
 
        connection.commit()
        cursor.close()
        connection.close()
-       return 
+
+       return tableName
 
 
     @task()
-    def getSaveCustomers():
+    def getSaveCustomers(tableName: str):
         
         from psycopg2.extras import execute_batch
         import requests
@@ -40,8 +59,8 @@ def customers():
         connection = pg_hook.get_conn()
         cursor = connection.cursor()
         
-        insertSQL = """
-                INSERT INTO customer (idCustomer, name, country)
+        insertSQL = f"""
+                INSERT INTO {tableName} (idCustomer, name, country)
                 VALUES (%s, %s, %s);
                 """
         
@@ -51,8 +70,58 @@ def customers():
         cursor.close()
         connection.close()
 
-    dropTableValues()
 
-    getSaveCustomers()
+
+    @task()
+    def dropTableValues():
+       pg_hook = PostgresHook(postgres_conn_id='postgreProd')
+       connection = pg_hook.get_conn()
+       cursor = connection.cursor()
+
+       cursor.execute("DELETE FROM customer")
+
+       connection.commit()
+       cursor.close()
+       connection.close()
+
+    
+    @task()
+    def insertValues(tableName: str):
+
+       pg_hook = PostgresHook(postgres_conn_id='postgreProd')
+       connection = pg_hook.get_conn()
+       cursor = connection.cursor()
+
+       cursor.execute(f"""
+            INSERT INTO customer
+            SELECT * FROM {tableName}
+            """)
+
+       connection.commit()
+       cursor.close()
+       connection.close()
+
+
+    @task()
+    def dropTempTable():
+       pg_hook = PostgresHook(postgres_conn_id='postgreProd')
+       connection = pg_hook.get_conn()
+       cursor = connection.cursor()
+
+       cursor.execute(f"""
+            INSERT INTO customer
+            SELECT * FROM {tableName}
+            """)
+
+       connection.commit()
+       cursor.close()
+       connection.close()
+        
+
+
+    tableName = createTempTable()
+
+    getSaveCustomers(tableName) >> dropTableValues() >> insertValues(tableName) >> dropTempTable()
+
 
 customers()

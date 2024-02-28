@@ -32,10 +32,6 @@ create table salesOrder (
 	qtyShipped			int				CHECK(qtyShipped <= qtyFullfilled),
 	soStatus			varchar(50)		CHECK(soStatus in ('Approved', 'Partially Fulfilled', 'Fulfilled', 'Partially Shipped', 'Shipped')),
 	UNIQUE (idSO, idItem),
-	FOREIGN KEY (idItem)
-		REFERENCES item (idItem),
-	FOREIGN KEY (idCustomer)
-		REFERENCES customer (idCustomer)
 );
 
 create table workOrder (
