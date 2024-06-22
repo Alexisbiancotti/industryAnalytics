@@ -6,6 +6,9 @@ import requests
 import datetime
 import json
 
+
+# the sensors runs and waits until the external dag finishes, so it needs to run in the same time o explicite the difference
+# if the external dag doesnt run or something else happens it could make the dag to run forever
 @dag(
     catchup=False,
     tags=["testSQL"],
@@ -56,8 +59,8 @@ def wo():
             sotupleToInsert = tuple(data.values())        
             
             insertSQL = """
-                    INSERT INTO workOrder (idSO, idItem, createdDate, qtyCreated, scrapQty)
-                    VALUES (%s, %s, %s, %s, %s);
+                    INSERT INTO workOrder (idSO, idItem, createdDate, closedDate, qtyCreated, scrapQty)
+                    VALUES (%s, %s, %s, %s, %s, %s);
                     """
             cursor.execute(insertSQL, sotupleToInsert)
 

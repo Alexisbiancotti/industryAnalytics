@@ -16,9 +16,9 @@ class Items:
     def __init__(self):
         # Initialize the dictionary with dummy data
         self.items = {
-            '1': {'name': 'Sifon Simple', 'price': 1200, 'family': 'Family A', 'cicleTime': 75},
-            '2': {'name': 'Sifon PVC', 'price': 800, 'family': 'Family A', 'cicleTime': 40},
-            '3': {'name': 'Sifon Doble', 'price': 500, 'family': 'Family B', 'cicleTime': 90},
+            '1': {'name': 'Sifon Simple', 'price': 1200, 'family': 'Family A', 'cicleTime': 75, 'cicleDev': 10},
+            '2': {'name': 'Sifon PVC', 'price': 800, 'family': 'Family A', 'cicleTime': 40, 'cicleDev': 5},
+            '3': {'name': 'Sifon Doble', 'price': 500, 'family': 'Family B', 'cicleTime': 90, 'cicleDev': 18},
         }
 
     def getRandomItem(self):
@@ -84,7 +84,7 @@ class SO:
         itemsInstance = Items()
         randomItem = itemsInstance.getRandomItem()      
 
-        soDate = self.fromDate + timedelta(days = random.randint(0, 5))
+        soDate = self.fromDate + timedelta(days = random.randint(0, 3))
         soDueDate = soDate + timedelta(days = random.randint(1, 15))
 
         qty = random.randint(1, 5)
@@ -98,7 +98,7 @@ class SO:
         soStatus = self.calculateSOStatus(qty, qtyFullfilled, qtyShipped)
 
         if soStatus == 'Shipped':
-            shipDate = soDate + timedelta(days = random.randint(0, 15))
+            shipDate = soDate + timedelta(days = random.randint(5, 15))
         else:
             shipDate = None
 
@@ -131,17 +131,43 @@ class WO:
         weights = [0.5, 0.1, 0.1, 0.1, 0.1, 0.1] 
         qtyScrap = random.choices(choices, weights)[0]
 
-        woDate = self.fromDate + timedelta(days = random.randint(0, 5))
+        woDate = self.fromDate + timedelta(days = random.randint(0, 2))
+        woCloseDate = woDate + timedelta(days = random.randint(3, 5))
 
         soDict = {
             'idSO' : self.idSO,
             'idItem' : self.idItem,
             'createdDate' : woDate,
+            'closedDate' : woCloseDate,
             'qty' : self.qtyFullfilled,
             'qtyScrap' : qtyScrap,
         }
         
         return soDict
+
+
+class Quota:
+    
+    def __init__(self, fromDate, idItem):
+        self.fromDate = fromDate
+        self.idItem = idItem
+
+    def createQuota(self):
+        
+        # I specify values and their weight in order to give more probability to no scrap
+        choices = [100, 150, 200, 300, 400, 500]
+        weights = [0.5, 0.1, 0.1, 0.1, 0.1, 0.1] 
+        quota = random.choices(choices, weights)[0]
+
+        quotaDate = self.fromDate.replace(day=1) 
+
+        quotaDict = {
+            'quotaDate' : quotaDate,
+            'idItem' : self.idItem,
+            'quota' : quota,
+        }
+        
+        return quotaDict
 
 
 app = FastAPI()
@@ -197,6 +223,18 @@ def allCust():
     allCust = cusInstance.getAllCust()
     
     return allCust
+
+
+@app.get("/quota")
+def quota(fromDate, idItem):
+
+    frmtDate = datetime.strptime(fromDate, "%Y-%m-%d")
+
+    quotaInstance = Quota(frmtDate, idItem)
+    
+    quotaData = quotaInstance.createQuota()
+    
+    return quotaData
 
 
 import uvicorn

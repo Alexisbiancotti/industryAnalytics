@@ -103,14 +103,13 @@ def customers():
 
 
     @task()
-    def dropTempTable():
+    def dropTempTable(tableName : str):
        pg_hook = PostgresHook(postgres_conn_id='postgreProd')
        connection = pg_hook.get_conn()
        cursor = connection.cursor()
 
        cursor.execute(f"""
-            INSERT INTO customer
-            SELECT * FROM {tableName}
+            DROP TABLE IF EXISTS {tableName}; 
             """)
 
        connection.commit()
@@ -121,7 +120,7 @@ def customers():
 
     tableName = createTempTable()
 
-    getSaveCustomers(tableName) >> dropTableValues() >> insertValues(tableName) >> dropTempTable()
+    getSaveCustomers(tableName) >> dropTableValues() >> insertValues(tableName) >> dropTempTable(tableName)
 
 
 customers()

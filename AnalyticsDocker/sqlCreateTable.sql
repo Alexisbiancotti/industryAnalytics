@@ -10,7 +10,8 @@ create table item (
 	name 				varchar(12) 		CHECK(name in ('Sifon Simple','Sifon PVC','Sifon Doble')),
 	price	 			float(2) 			CHECK(price > 0),
 	family 				varchar(12) 		CHECK(family in ('Family A','Family B')),
-	cicleTime	 		float(2) 			CHECK(cicleTime > 0)
+	cicleTime	 		float(2) 			CHECK(cicleTime > 0),
+	cicleDev	 		float(2) 			CHECK(cicleDev > 0),
 );
 
 create table customer (
@@ -32,6 +33,10 @@ create table salesOrder (
 	qtyShipped			int				CHECK(qtyShipped <= qtyFullfilled),
 	soStatus			varchar(50)		CHECK(soStatus in ('Approved', 'Partially Fulfilled', 'Fulfilled', 'Partially Shipped', 'Shipped')),
 	UNIQUE (idSO, idItem),
+	FOREIGN KEY (idItem)
+		REFERENCES item (idItem),
+	FOREIGN KEY (idCustomer)
+		REFERENCES customer (idCustomer)
 );
 
 create table workOrder (
@@ -39,10 +44,18 @@ create table workOrder (
 	idSO 				int 			NOT NULL,
 	idItem 				int 			NOT NULL,
 	createdDate 		date 			NOT NULL,
+	closedDate 			date 			NOT NULL,
 	qtyCreated			int 			CHECK(qtyCreated > 0),
 	scrapQty			int 			CHECK(qtyCreated > 0),
 	FOREIGN KEY (idSO , idItem) references salesOrder(idSO, idItem)	
 );
 
+
+create table quota (
+	period 				date 			NOT NULL,
+	idItem 				int 			NOT NULL,
+	quota				int 			CHECK(quota > 0),
+	UNIQUE (period, idItem)
+);
 
 
