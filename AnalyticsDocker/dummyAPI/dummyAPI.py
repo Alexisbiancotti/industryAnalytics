@@ -90,9 +90,11 @@ class SO:
         qty = random.randint(1, 5)
         # I specify values and their weight in order to give more probability to finished status
         choices = [0, 1, 2, 3, 4, 5]
-        weights = [0.3, 0.1, 0.1, 0.1, 0.1, 0.3] 
-        qtyFullfilled = random.choices(choices[:qty+1], weights[:qty+1])[0]
-        qtyShipped = random.choices(choices[:qtyFullfilled+1], weights[:qtyFullfilled+1])[0]
+        weights = [0.2, 0.1, 0.1, 0.1, 0.1, 0.4] 
+        # the choices have a +1 because qty starts in 1 at least
+        # the order en the weights are inversed to improve the chance that the order is shipped
+        qtyFullfilled = random.choices(choices[:qty+1], weights[5-qty:])[0]
+        qtyShipped = random.choices(choices[:qtyFullfilled+1], weights[5-qtyFullfilled:])[0]
 
         # Depending the values randomly generated the SO Status is calculated to match the values
         soStatus = self.calculateSOStatus(qty, qtyFullfilled, qtyShipped)
@@ -118,11 +120,12 @@ class SO:
 
 class WO:
     
-    def __init__(self, idSO, idItem, fromDate, qtyFullfilled):
+    def __init__(self, idSO, idItem, fromDate, qtyFullfilled, soStatus):
         self.idSO = idSO
         self.idItem = idItem
         self.fromDate = fromDate
         self.qtyFullfilled = qtyFullfilled
+        self.soStatus = soStatus
 
     def createWO(self):
         
@@ -132,7 +135,12 @@ class WO:
         qtyScrap = random.choices(choices, weights)[0]
 
         woDate = self.fromDate + timedelta(days = random.randint(0, 2))
-        woCloseDate = woDate + timedelta(days = random.randint(3, 5))
+
+        # this is because if the order is not finished the WO is open
+        if self.soStatus == 'Shipped':
+            woCloseDate = woDate + timedelta(days = random.randint(3, 5))
+        else:
+            woCloseDate = None
 
         soDict = {
             'idSO' : self.idSO,
@@ -188,13 +196,13 @@ def soData(paramDate):
 
 
 @app.get("/woData")
-def woData(idSO, idItem, fromDate, qtyFullfilled):
+def woData(idSO, idItem, fromDate, qtyFullfilled, soStatus):
     
     # http://127.0.0.1:8000/woData?idSO=1&idItem=1&fromDate=2024-01-01&qtyFullfilled=2
 
     frmtDate = datetime.strptime(fromDate, "%Y-%m-%d")
 
-    woInstance = WO(idSO, idItem, frmtDate, qtyFullfilled)
+    woInstance = WO(idSO, idItem, frmtDate, qtyFullfilled, soStatus)
     
     woData = woInstance.createWO()
     

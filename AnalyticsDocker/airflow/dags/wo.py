@@ -39,7 +39,8 @@ def wo():
                             T1.idso,
                             T1.iditem,
                             T1.createddate, 
-                            T1.qtyfullfilled 
+                            T1.qtyfullfilled, 
+                            T1.sostatus
                         from salesOrder T1
                         left join workorder T2
                         on T1.idso = T2.idso 
@@ -54,7 +55,7 @@ def wo():
 
         for i in range(len(result)):
         
-            response = requests.get(f'http://datasource-dummy:80/woData?idSO={result[i][0]}&idItem={result[i][1]}&fromDate={result[i][2]}&qtyFullfilled={result[i][3]}')
+            response = requests.get(f'http://datasource-dummy:80/woData?idSO={result[i][0]}&idItem={result[i][1]}&fromDate={result[i][2]}&qtyFullfilled={result[i][3]}&soStatus={result[i][4]}')
             data = response.json()        
             sotupleToInsert = tuple(data.values())        
             

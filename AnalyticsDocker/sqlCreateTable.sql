@@ -44,7 +44,7 @@ create table workOrder (
 	idSO 				int 			NOT NULL,
 	idItem 				int 			NOT NULL,
 	createdDate 		date 			NOT NULL,
-	closedDate 			date 			NOT NULL,
+	closedDate 			date 			,
 	qtyCreated			int 			CHECK(qtyCreated > 0),
 	scrapQty			int 			CHECK(qtyCreated > 0),
 	FOREIGN KEY (idSO , idItem) references salesOrder(idSO, idItem)	
