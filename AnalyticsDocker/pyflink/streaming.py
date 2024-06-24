@@ -1,4 +1,6 @@
 import os
+import logging
+import sys
 
 from pyflink.common.typeinfo import Types
 from pyflink.datastream import StreamExecutionEnvironment
@@ -45,10 +47,10 @@ def readKafka():
     ds.print()
 
     jdbcConn = JdbcSink.sink(
-        "insert into test (createdAt, mach, temp) values (?, ?, ?)",
+        "insert into sensordata (createdAt, mach, temp) values (?, ?, ?)",
         row_type_info,
         JdbcConnectionOptions.JdbcConnectionOptionsBuilder()
-            .with_url('jdbc:postgresql://postgres:5432/airflow?currentSchema=prod')
+            .with_url('jdbc:postgresql://postgres:5432/bdProd?currentSchema=public')
             .with_driver_name('org.postgresql.Driver')
             .with_user_name('alexis')
             .with_password('alexis6895')
@@ -67,5 +69,7 @@ def readKafka():
     
 
 if __name__ == "__main__":
-     
-     readKafka()
+
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO, format="%(message)s")
+
+    readKafka()
