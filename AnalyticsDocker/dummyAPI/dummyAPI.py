@@ -16,9 +16,9 @@ class Items:
     def __init__(self):
         # Initialize the dictionary with dummy data
         self.items = {
-            '1': {'name': 'Sifon Simple', 'price': 1200, 'family': 'Family A', 'cicleTime': 75, 'cicleDev': 10},
-            '2': {'name': 'Sifon PVC', 'price': 800, 'family': 'Family A', 'cicleTime': 40, 'cicleDev': 5},
-            '3': {'name': 'Sifon Doble', 'price': 500, 'family': 'Family B', 'cicleTime': 90, 'cicleDev': 18},
+            '1': {'name': 'Sifon Simple', 'price': 1200, 'family': 'Family A', 'cicleTime': 75, 'cicleDev': 10, 'maq': 'Iny 1'},
+            '2': {'name': 'Sifon PVC', 'price': 800, 'family': 'Family A', 'cicleTime': 40, 'cicleDev': 5, 'maq': 'Iny 2'},
+            '3': {'name': 'Sifon Doble', 'price': 500, 'family': 'Family B', 'cicleTime': 90, 'cicleDev': 18, 'maq': 'Iny 3'},
         }
 
     def getRandomItem(self):
@@ -117,6 +117,7 @@ class SO:
         }
         
         return soDict
+
 
 class WO:
     

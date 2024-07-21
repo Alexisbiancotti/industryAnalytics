@@ -11,7 +11,8 @@ import json
     catchup=False,
     tags=["sql","quota"],
     start_date=datetime.datetime(2024, 2, 24),
-    schedule_interval= "*/5 * * * *",
+    #comenting the schedule in order to use the dummy data for the dashboard
+    #schedule_interval= "*/5 * * * *",
 )
 def qouta():
 
@@ -28,8 +29,8 @@ def qouta():
                         SELECT DISTINCT 
                             DATE(DATE_TRUNC('month', T1.createddate)) as period,
                             T1.idItem
-                        FROM public.salesorder T1
-                        LEFT JOIN public.quota T2
+                        FROM public.salesorderAirflow T1
+                        LEFT JOIN public.quotaAirflow T2
                         ON DATE(DATE_TRUNC('month', T1.createddate)) = T2.Period
                             AND
                         T1.idItem = T2.idItem
@@ -47,7 +48,7 @@ def qouta():
             sotupleToInsert = tuple(data.values())        
             
             insertSQL = """
-                    INSERT INTO quota (period, idItem, quota)
+                    INSERT INTO quotaAirflow (period, idItem, quota)
                     VALUES (%s, %s, %s);
                     """
             cursor.execute(insertSQL, sotupleToInsert)

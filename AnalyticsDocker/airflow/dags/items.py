@@ -61,15 +61,16 @@ def items():
                           data[record]['price'],
                           data[record]['family'],
                           data[record]['cicleTime'],
-                          data[record]['cicleDev']) for record in data]
+                          data[record]['cicleDev'],
+                          data[record]['maq']) for record in data]
         
         pg_hook = PostgresHook(postgres_conn_id='postgreProd')
         connection = pg_hook.get_conn()
         cursor = connection.cursor()
         
         insertSQL = f"""
-                INSERT INTO {tableName} (idItem, name, price, family, cicleTime, cicleDev)
-                VALUES (%s, %s, %s, %s, %s, %s);
+                INSERT INTO {tableName} (idItem, name, price, family, cicleTime, cicleDev, maq)
+                VALUES (%s, %s, %s, %s, %s, %s, %s);
                 """
         
         execute_batch(cursor, insertSQL, tupleToInsert)

@@ -8,7 +8,8 @@ import json
 @dag(
     catchup=False,
     start_date=datetime.datetime(2024, 2, 24),
-    schedule_interval= "* * * * *",
+    #comenting the schedule in order to use the dummy data for the dashboard
+    #schedule_interval= "* * * * *",
     tags=["testSQL"],
 )
 def so():
@@ -21,7 +22,7 @@ def so():
         connection = pg_hook.get_conn()
         cursor = connection.cursor()
 
-        cursor.execute("SELECT max(createdDate) FROM salesOrder")
+        cursor.execute("SELECT max(createdDate) FROM salesOrderAirflow")
         result = cursor.fetchone()
         lastDate = result[0]
 
@@ -50,7 +51,7 @@ def so():
         
         
         insertSQL = """
-                INSERT INTO salesorder (idCustomer, idItem, createdDate, dueDate, shipDate, qty, qtyFullfilled, qtyShipped, soStatus)
+                INSERT INTO salesOrderAirflow (idCustomer, idItem, createdDate, dueDate, shipDate, qty, qtyFullfilled, qtyShipped, soStatus)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
                 """
         cursor.execute(insertSQL, sotupleToInsert)

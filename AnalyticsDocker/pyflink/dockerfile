@@ -21,6 +21,3 @@ ENV PATH $JAVA_HOME/bin:$PATH
 
 # install PyFlink
 RUN pip3 install apache-flink==1.16.3
-
-# COPY apache-flink*.tar.gz /
-# RUN pip3 install /apache-flink-libraries*.tar.gz
