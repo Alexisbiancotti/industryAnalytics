@@ -1,0 +1,5 @@
+# Image
+FROM postgres:13
+
+# Copy the SQL script to the Docker image
+COPY sqlInit.sql /docker-entrypoint-initdb.d/

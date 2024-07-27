@@ -27,7 +27,7 @@ def customers():
        cursor = connection.cursor()
 
        createSQL = f"""
-                    create table {tableName} (
+                    create table analyticsdata.{tableName} (
                         idCustomer 			int 				PRIMARY KEY,
                         name 				varchar(12) 		NOT NULL,
                         country 			varchar(12) 		CHECK(country in ('Argentina','Brazil','Uruguay'))
@@ -60,7 +60,7 @@ def customers():
         cursor = connection.cursor()
         
         insertSQL = f"""
-                INSERT INTO {tableName} (idCustomer, name, country)
+                INSERT INTO analyticsdata.{tableName} (idCustomer, name, country)
                 VALUES (%s, %s, %s);
                 """
         
@@ -78,7 +78,7 @@ def customers():
        connection = pg_hook.get_conn()
        cursor = connection.cursor()
 
-       cursor.execute("DELETE FROM customer")
+       cursor.execute("DELETE FROM analyticsdata.customer")
 
        connection.commit()
        cursor.close()
@@ -93,7 +93,7 @@ def customers():
        cursor = connection.cursor()
 
        cursor.execute(f"""
-            INSERT INTO customer
+            INSERT INTO analyticsdata.customer
             SELECT * FROM {tableName}
             """)
 
@@ -109,7 +109,7 @@ def customers():
        cursor = connection.cursor()
 
        cursor.execute(f"""
-            DROP TABLE IF EXISTS {tableName}; 
+            DROP TABLE IF EXISTS analyticsdata.{tableName}; 
             """)
 
        connection.commit()

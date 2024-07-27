@@ -1,0 +1,1 @@
+ALTER DATABASE airflow RESET search_path;

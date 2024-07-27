@@ -27,7 +27,7 @@ def items():
        cursor = connection.cursor()
 
        createSQL = f"""
-                    create table {tableName} (
+                    create table analyticsdata.{tableName} (
                         idItem 				int 				PRIMARY KEY,
                         name 				varchar(12) 		CHECK(name in ('Sifon Simple','Sifon PVC','Sifon Doble')),
                         price	 			float(2) 			CHECK(price > 0),
@@ -69,7 +69,7 @@ def items():
         cursor = connection.cursor()
         
         insertSQL = f"""
-                INSERT INTO {tableName} (idItem, name, price, family, cicleTime, cicleDev, maq)
+                INSERT INTO analyticsdata.{tableName} (idItem, name, price, family, cicleTime, cicleDev, maq)
                 VALUES (%s, %s, %s, %s, %s, %s, %s);
                 """
         
@@ -87,7 +87,7 @@ def items():
        connection = pg_hook.get_conn()
        cursor = connection.cursor()
 
-       cursor.execute("DELETE FROM item")
+       cursor.execute("DELETE FROM analyticsdata.item")
 
        connection.commit()
        cursor.close()
@@ -103,7 +103,7 @@ def items():
 
        cursor.execute(f"""
             INSERT INTO item
-            SELECT * FROM {tableName};
+            SELECT * FROM analyticsdata.{tableName};
             """)
 
        connection.commit()
@@ -118,7 +118,7 @@ def items():
        cursor = connection.cursor()
 
        cursor.execute(f"""
-            DROP TABLE IF EXISTS {tableName}; 
+            DROP TABLE IF EXISTS analyticsdata.{tableName}; 
             """)
 
        connection.commit()

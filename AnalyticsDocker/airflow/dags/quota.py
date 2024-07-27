@@ -29,8 +29,8 @@ def qouta():
                         SELECT DISTINCT 
                             DATE(DATE_TRUNC('month', T1.createddate)) as period,
                             T1.idItem
-                        FROM public.salesorderAirflow T1
-                        LEFT JOIN public.quotaAirflow T2
+                        FROM analyticsdata.salesorderAirflow T1
+                        LEFT JOIN analyticsdata.quotaAirflow T2
                         ON DATE(DATE_TRUNC('month', T1.createddate)) = T2.Period
                             AND
                         T1.idItem = T2.idItem
@@ -48,7 +48,7 @@ def qouta():
             sotupleToInsert = tuple(data.values())        
             
             insertSQL = """
-                    INSERT INTO quotaAirflow (period, idItem, quota)
+                    INSERT INTO analyticsdata.quotaAirflow (period, idItem, quota)
                     VALUES (%s, %s, %s);
                     """
             cursor.execute(insertSQL, sotupleToInsert)

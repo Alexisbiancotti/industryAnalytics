@@ -14,7 +14,7 @@ import json
     tags=["testSQL"],
     start_date=datetime.datetime(2024, 2, 24),
     #comenting the schedule in order to use the dummy data for the dashboard
-    #schedule_interval= "*/2 * * * *",
+    schedule_interval= "*/2 * * * *",
 )
 def wo():
 
@@ -42,8 +42,8 @@ def wo():
                             T1.createddate, 
                             T1.qtyfullfilled, 
                             T1.sostatus
-                        from salesOrderAirflow T1
-                        left join workOrderAirflow T2
+                        from analyticsdata.salesOrderAirflow T1
+                        left join analyticsdata.workOrderAirflow T2
                         on T1.idso = T2.idso 
                         where 
                             T1.sostatus <> 'Approved'
@@ -61,7 +61,7 @@ def wo():
             sotupleToInsert = tuple(data.values())        
             
             insertSQL = """
-                    INSERT INTO workOrderAirflow (idSO, idItem, createdDate, closedDate, qtyCreated, scrapQty)
+                    INSERT INTO analyticsdata.workOrderAirflow (idSO, idItem, createdDate, closedDate, qtyCreated, scrapQty)
                     VALUES (%s, %s, %s, %s, %s, %s);
                     """
             cursor.execute(insertSQL, sotupleToInsert)

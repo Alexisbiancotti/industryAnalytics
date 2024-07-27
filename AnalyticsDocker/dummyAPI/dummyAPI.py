@@ -84,7 +84,7 @@ class SO:
         itemsInstance = Items()
         randomItem = itemsInstance.getRandomItem()      
 
-        soDate = self.fromDate + timedelta(days = random.randint(0, 3))
+        soDate = self.fromDate + timedelta(days = random.randint(0, 2))
         soDueDate = soDate + timedelta(days = random.randint(1, 15))
 
         qty = random.randint(1, 5)
@@ -100,7 +100,7 @@ class SO:
         soStatus = self.calculateSOStatus(qty, qtyFullfilled, qtyShipped)
 
         if soStatus == 'Shipped':
-            shipDate = soDate + timedelta(days = random.randint(5, 15))
+            shipDate = soDate + timedelta(days = random.randint(7, 15))
         else:
             shipDate = None
 
