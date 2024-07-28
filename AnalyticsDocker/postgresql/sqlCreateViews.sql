@@ -3,17 +3,20 @@ SELECT
 	T1.idso,
 	T1.idcustomer,
 	T1.iditem,
-	T1.createddate	AS soCreatedDate,
-	T1.duedate		AS soDueDate,
-	T1.shipdate		AS soShipDate,
+	T1.createddate								AS soCreatedDate,
+	T1.duedate									AS soDueDate,
+	T1.shipdate									AS soShipDate,
 	T1.qty,
 	T1.qtyfullfilled,
+	T1.qty - T1.qtyfullfilled					AS qtyPending,
 	T1.qtyshipped,
 	T1.sostatus,
-	T2.createddate	AS woCreatedDate,
-	T2.closedDate	AS woClosedDate,
+	T2.createddate								AS woCreatedDate,
+	T2.closedDate								AS woClosedDate,
 	T2.scrapqty,
-	1				AS flagSum,
+	1										  	AS flagSum,
+	DATE(DATE_TRUNC('month', T1.createddate))	AS soMonth,
+	T1.qty * T3.price							AS salePrice,
 	CASE 
 		WHEN T1.shipdate > T1.duedate AND T1.shipdate IS NOT NULL
 		THEN 1
@@ -54,3 +57,13 @@ ON T1.idso = T2.idso AND T1.iditem = T2.iditem
 LEFT JOIN analyticsdata.item T3
 ON T1.iditem = T3.iditem
 );
+
+
+CREATE VIEW analyticsdata.STG_SENSORDATA AS (
+SELECT 
+	to_timestamp(createdat)		AS createdat,
+	mach, 
+	"temp"
+FROM analyticsdata.sensordata
+);
+

@@ -26,11 +26,11 @@ VALUES (8, 'Mercadolibre', 'Argentina');
 
 --Items Data
 INSERT INTO item (idItem, name, price, family, moldTemp, tempDev, maq, cycleFab , cycleDev)
-VALUES (1, 'Sifon Simple', 1200, 'Family A', 75, 10, 'Iny 1', 70, 10);
+VALUES (1, 'Sifon Simple', 10, 'Family A', 75, 10, 'Iny 1', 70, 10);
 
 INSERT INTO item (idItem, name, price, family, moldTemp, tempDev, maq, cycleFab , cycleDev)
-VALUES (2, 'Sifon PVC', 800, 'Family A', 40, 5, 'Iny 2', 70, 12);
+VALUES (2, 'Sifon PVC', 8, 'Family A', 40, 5, 'Iny 2', 70, 12);
 
 INSERT INTO item (idItem, name, price, family, moldTemp, tempDev, maq, cycleFab , cycleDev)
-VALUES (3, 'Sifon Doble', 500, 'Family B', 90, 18, 'Iny 3', 50, 4);
+VALUES (3, 'Sifon Doble', 16, 'Family B', 90, 18, 'Iny 3', 50, 4);
 
