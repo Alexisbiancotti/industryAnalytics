@@ -8,14 +8,22 @@ mach 		varchar(10)		NOT NULL,
 temp        float(2)		NOT NULL
 );
 
+create table sensorDataPyFlink (
+createdAt 	bigint			NOT NULL,
+mach 		varchar(10)		NOT NULL,
+temp        float(2)		NOT NULL
+);
+
 create table item (
 	idItem 				int 				PRIMARY KEY,
 	name 				varchar(12) 		CHECK(name in ('Sifon Simple','Sifon PVC','Sifon Doble')),
 	price	 			float(2) 			CHECK(price > 0),
 	family 				varchar(12) 		CHECK(family in ('Family A','Family B')),
-	cicleTime	 		float(2) 			CHECK(cicleTime > 0),
-	cicleDev	 		float(2) 			CHECK(cicleDev > 0),
-	maq 				varchar(6) 			CHECK(maq in ('Iny 1','Iny 2','Iny 3'))
+	moldTemp	 		float(2) 			CHECK(moldTemp > 0),
+	tempDev		 		float(2) 			CHECK(tempDev > 0),
+	maq 				varchar(6) 			CHECK(maq in ('Iny 1','Iny 2','Iny 3')),
+	cycleFab			float(2) 			CHECK(cycleFab > 0),
+	cycleDev			float(2) 			CHECK(cycleDev > 0)
 );
 
 create table customer (

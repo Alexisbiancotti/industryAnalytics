@@ -87,14 +87,16 @@ class SO:
         soDate = self.fromDate + timedelta(days = random.randint(0, 2))
         soDueDate = soDate + timedelta(days = random.randint(1, 15))
 
-        qty = random.randint(1, 5)
+        qty = random.choice([1000, 2000, 3000, 4000, 5000])
         # I specify values and their weight in order to give more probability to finished status
-        choices = [0, 1, 2, 3, 4, 5]
+        choices = [0, 1000, 2000, 3000, 4000, 5000]
         weights = [0.2, 0.1, 0.1, 0.1, 0.1, 0.4] 
         # the choices have a +1 because qty starts in 1 at least
         # the order en the weights are inversed to improve the chance that the order is shipped
-        qtyFullfilled = random.choices(choices[:qty+1], weights[5-qty:])[0]
-        qtyShipped = random.choices(choices[:qtyFullfilled+1], weights[5-qtyFullfilled:])[0]
+        qtyIndex = choices.index(qty)
+        qtyFullfilled = random.choices(choices[:qtyIndex+1], weights[5-qtyIndex:])[0]
+        qtyFullfilledIndex = choices.index(qtyFullfilled)
+        qtyShipped = random.choices(choices[:qtyFullfilledIndex+1], weights[5-qtyFullfilledIndex:])[0]
 
         # Depending the values randomly generated the SO Status is calculated to match the values
         soStatus = self.calculateSOStatus(qty, qtyFullfilled, qtyShipped)
@@ -131,7 +133,7 @@ class WO:
     def createWO(self):
         
         # I specify values and their weight in order to give more probability to no scrap
-        choices = [0, 1, 2, 3, 4, 5]
+        choices = [0, 100, 200, 300, 400, 500]
         weights = [0.5, 0.1, 0.1, 0.1, 0.1, 0.1] 
         qtyScrap = random.choices(choices, weights)[0]
 
@@ -163,9 +165,9 @@ class Quota:
 
     def createQuota(self):
         
-        # I specify values and their weight in order to give more probability to no scrap
-        choices = [100, 150, 200, 300, 400, 500]
-        weights = [0.5, 0.1, 0.1, 0.1, 0.1, 0.1] 
+        # I specify values and their weight in order to give more probability to start/finish
+        choices = [100000, 150000, 200000, 300000, 400000, 500000]
+        weights = [0.2, 0.1, 0.1, 0.1, 0.1, 0.3] 
         quota = random.choices(choices, weights)[0]
 
         quotaDate = self.fromDate.replace(day=1) 

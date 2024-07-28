@@ -1,4 +1,4 @@
-CREATE VIEW STG_CONSOLIDATED AS (
+CREATE VIEW analyticsdata.STG_CONSOLIDATED AS (
 SELECT 
 	T1.idso,
 	T1.idcustomer,
@@ -29,6 +29,11 @@ SELECT
 		THEN T2.closedDate - T2.createddate
 		ELSE NULL
 	END				AS fabricationTime,
+	CASE 
+		WHEN T2.createddate IS NOT NULL
+		THEN (T2.closedDate - T2.createddate) * 8 * 3600 / T1.qtyfullfilled
+		ELSE NULL
+	END				AS cicleTime,
 	CASE 
 		WHEN T1.shipdate IS NOT NULL
 		THEN T1.shipdate - T2.closedDate
