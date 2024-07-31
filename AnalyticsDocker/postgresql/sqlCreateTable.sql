@@ -8,7 +8,7 @@ mach 		varchar(10)		NOT NULL,
 temp        float(2)		NOT NULL
 );
 
-create table sensorDataPyFlink (
+create table sensorDataAPI (
 createdAt 	bigint			NOT NULL,
 mach 		varchar(10)		NOT NULL,
 temp        float(2)		NOT NULL
