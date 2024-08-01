@@ -14,6 +14,15 @@ mach 		varchar(10)		NOT NULL,
 temp        float(2)		NOT NULL
 );
 
+create table forecast (
+forecastDate    		date			NOT NULL,
+forecastedValue 		float(2) 		,
+lowerLimit 				float(2) 		,
+upperLimit	 			float(2)     	,
+realValue 				float(2)		CHECK(realValue > 0),
+itemID	 				int				NOT NULL
+);
+
 create table item (
 	idItem 				int 				PRIMARY KEY,
 	name 				varchar(12) 		CHECK(name in ('Sifon Simple','Sifon PVC','Sifon Doble')),

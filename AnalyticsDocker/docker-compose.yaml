@@ -220,14 +220,10 @@ services:
   datasource-dummy:
     build:
       context: ./dummyAPI
-    # ports:
-    #   - "80:80"
 
   sensor-api:
     build:
       context: ./sensorAPI
-    #  ports:
-    #  - "8000:8000"
     environment:
       - DB_HOST=postgres
       - DB_NAME=airflow
@@ -240,8 +236,6 @@ services:
   sensor-generator:
     build:
       context: ./sensorGenerator
-    #  ports:
-    #  - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
       - PYTHONIOENCODING=UTF-8
