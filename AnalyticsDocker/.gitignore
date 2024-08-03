@@ -1,4 +1,0 @@
-*.env
-/airflow/logs/*
-*.tar.gz
-*.tar

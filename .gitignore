@@ -1,0 +1,6 @@
+*.env
+*.txt
+*.env
+AnalyticsDocker/airflow/logs/*
+*.tar.gz
+*.tar
