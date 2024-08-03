@@ -1,0 +1,97 @@
+///////// Comandos Docker /////////
+
+///// Saber mi usuario con Powershell /////
+[System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+
+echo -e "AIRFLOW_UID=$(id -u)"
+
+
+///// Crear Imagen Customs /////
+
+#crear imagen desde el directorio del archivo del docker-compose
+docker-compose build
+
+#levantar imagen
+docker-compose up
+
+
+//// Admin ////
+
+#listar contenedores activos
+docker container ls
+
+#parar contenedor activos
+docker stop <id>
+
+
+///// actualizar imagen ///// 
+I pull latest images:
+
+docker compose pull
+
+docker compose build
+
+Then I restart containers:
+
+docker compose up -d --remove-orphans
+
+Optionally, I remove obsolete images:
+
+docker image prune
+
+
+
+
+////// Correr comandos de Kafka ////
+arrancar kafka en la terminas
+docker exec -it broker /bin/bash
+
+Ver pagina
+https://medium.com/@TimvanBaarsen/apache-kafka-cli-commands-cheat-sheet-a6f06eac01b
+https://thecodinginterface.com/blog/kafka-cli-cheat-sheet/
+
+
+Hay que sacarle los directorios del comando
+
+
+
+
+//// Sintaxis del Compose ////
+
+Hay que instalar kafka-python
+
+
+kafka-topics --bootstrap-server localhost:9092 --create --topic testIoTSensor --replication-factor 1 --partitions 1
+
+docker-compose exec ksqldb-cli ksql http://ksqldb-server:8088
+
+CREATE SINK CONNECTOR postgres_testIoTsink WITH (
+    'connector.class' = 'io.confluent.connect.jdbc.JdbcSinkConnector',
+    'tasks.max' = '1',
+    'topics' = 'testIoTSensor',
+    'connection.url' = 'jdbc:postgresql://postgres:5432/airflow?currentSchema=prod&user=alexis&password=alexis6895',
+    'connection.user' = 'alexis',
+    'connection.password' = 'alexis6895',
+    'insert.mode' = 'insert',
+	'table.name.format' = 'testIoTSensor'
+);
+
+docker run -v $PWD/confluent-hub-components:/share/confluent-hub-components confluentinc/ksqldb-server:0.8.1 confluent-hub install --no-prompt confluentinc/kafka-connect-jdbc:5.5.0
+
+
+
+
+
+corriendo una terminal en el visual studio
+
+
+docker-compose exec jobmanager ./bin/flink run -py test.py 
+
+para correr flink con el job
+flink run --python test.py
+
+
+RuntimeWarning: Pemja may not yet support Python 3.10.
+61.92         warnings.warn(
+61.92       Include folder should be at '/opt/java/openjdk/include' but doesn't exist. Please check you've installed the JDK properly.
+61.92       [end of output]
