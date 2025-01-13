@@ -86,6 +86,7 @@ create table workOrder (
 	closedDate 			date 			,
 	qtyCreated			int 			CHECK(qtyCreated > 0),
 	scrapQty			int 			CHECK(qtyCreated > 0),
+	scrapReason			varchar(50)		,
 	FOREIGN KEY (idSO , idItem) references salesOrder(idSO, idItem)	
 );
 

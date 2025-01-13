@@ -136,6 +136,8 @@ class WO:
         choices = [0, 100, 200, 300, 400, 500]
         weights = [0.5, 0.1, 0.1, 0.1, 0.1, 0.1] 
         qtyScrap = random.choices(choices, weights)[0]
+        scrapReasons = ['Rechupe', 'Quemado', 'Incompleto']
+        scrapReason = random.choice(scrapReasons)
 
         woDate = self.fromDate + timedelta(days = random.randint(0, 2))
 
@@ -152,6 +154,7 @@ class WO:
             'closedDate' : woCloseDate,
             'qty' : self.qtyFullfilled,
             'qtyScrap' : qtyScrap,
+            'scrapReason' : scrapReason,
         }
         
         return soDict

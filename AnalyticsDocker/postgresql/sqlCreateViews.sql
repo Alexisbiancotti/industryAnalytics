@@ -14,6 +14,7 @@ SELECT
 	T2.createddate								AS woCreatedDate,
 	T2.closedDate								AS woClosedDate,
 	T2.scrapqty,
+	T2.scrapreason,
 	1										  	AS flagSum,
 	DATE(DATE_TRUNC('month', T1.createddate))	AS soMonth,
 	T1.qty * T3.price							AS salePrice,

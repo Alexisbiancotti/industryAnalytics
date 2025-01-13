@@ -61,8 +61,8 @@ def wo():
             sotupleToInsert = tuple(data.values())        
             
             insertSQL = """
-                    INSERT INTO analyticsdata.workOrderAirflow (idSO, idItem, createdDate, closedDate, qtyCreated, scrapQty)
-                    VALUES (%s, %s, %s, %s, %s, %s);
+                    INSERT INTO analyticsdata.workOrderAirflow (idSO, idItem, createdDate, closedDate, qtyCreated, scrapQty, scrapReason)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s);
                     """
             cursor.execute(insertSQL, sotupleToInsert)
 
